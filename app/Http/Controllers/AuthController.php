@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -12,7 +15,7 @@ class AuthController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index() : View
     {
         return view('login');
     }
@@ -28,19 +31,39 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): string
+    public function store(Request $request) : \Illuminate\Http\RedirectResponse
     {
-        $imageData = $request->input('image'); // Get base64 image data
-        $image = str_replace('data:image/jpeg;base64,', '', $imageData); // Remove the base64 prefix
-        $image = str_replace(' ', '+', $image); // Replace spaces with plus sign
-        $imageName = uniqid().'.jpg'; // Generate a unique name
+        // Validate the incoming request to ensure image data is present
+        $request->validate([
+            'image' => 'required|string',
+        ]);
 
-        // Save image to storage
-        Storage::put("public/images/{$imageName}", base64_decode($image));
+        // Get base64 image data
+        $imageData = $request->input('image');
 
-        Auth::login(1);
+        // Check if the base64 data contains the correct prefix and strip it
+        if (strpos($imageData, 'data:image/jpeg;base64,') !== false) {
+            $image = str_replace('data:image/jpeg;base64,', '', $imageData); // Remove the base64 prefix
+            $image = str_replace(' ', '+', $image); // Replace spaces with plus sign
+        }
+        else {
+            return response()->json(['error' => 'Invalid image data'], 400); // Handle invalid image format
+        }
 
-        return route('home');
+        // Generate a unique name for the image
+        $imageName = uniqid() . '.jpg';
+
+        // Save the image to the storage
+        if (Storage::put("public/images/{$imageName}", base64_decode($image, true))) {
+            // Log the user in (if needed)
+            Auth::loginUsingId(1); // Login user as an example, ensure this is a valid operation
+
+            // Redirect to the home route
+            return Redirect::route('home');
+        }
+        else {
+            return Redirect::back()->withErrors(['error' => 'Unable to save image']); // Handle error saving image
+        }
     }
 
     /**

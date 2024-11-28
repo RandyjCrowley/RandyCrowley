@@ -1,0 +1,131 @@
+
+{
+    "preset": "laravel", // Use Laravel's coding standards as the base configuration.
+    "rules": {
+        "array_syntax": {"syntax": "short"}, // Use short array syntax `[]` instead of `array()`.
+        // Example:
+        // BEFORE: $arr = array(1, 2, 3);
+        // AFTER:  $arr = [1, 2, 3];
+
+        "binary_operator_spaces": {"default": "single_space"}, // Ensure single space around binary operators like `=`, `+`, `.`.
+        // Example:
+        // BEFORE: $x=5+2;
+        // AFTER:  $x = 5 + 2;
+
+        "concat_space": {"spacing": "one"}, // Ensure one space around concatenation operator (`.`).
+        // Example:
+        // BEFORE: $str = 'Hello'.'World';
+        // AFTER:  $str = 'Hello' . 'World';
+
+        "no_unused_imports": true, // Automatically remove unused `use` statements.
+        // Example:
+        // BEFORE: use App\Models\User; // (if `User` is not used)
+        // AFTER:  (removed)
+
+        "ordered_imports": {"sort_algorithm": "alpha"}, // Sort `use` statements alphabetically.
+        // Example:
+        // BEFORE: use Illuminate\Support\Facades\Auth;
+        //         use App\Models\User;
+        // AFTER:  use App\Models\User;
+        //         use Illuminate\Support\Facades\Auth;
+
+        "phpdoc_align": true, // Align PHPDoc annotations for better readability.
+        // Example:
+        // BEFORE:
+        // /**
+        // * @param int $id
+        // * @return string
+        // */
+        // AFTER:
+        // /**
+        //  * @param int    $id
+        //  * @return string
+        //  */
+
+        "phpdoc_separation": true, // Ensure a blank line separates PHPDoc blocks and code.
+        // Example:
+        // BEFORE:
+        // /** @var int $count */
+        // $count = 0;
+        // AFTER:
+        // /** @var int $count */
+        //
+        // $count = 0;
+
+        "phpdoc_order": true, // Ensure PHPDoc annotations are ordered logically (param, return, etc.).
+        // Example:
+        // BEFORE:
+        // /**
+        //  * @return int
+        //  * @param string $name
+        //  */
+        // AFTER:
+        // /**
+        //  * @param string $name
+        //  * @return int
+        //  */
+
+        "single_quote": true, // Use single quotes for strings unless interpolation is needed.
+        // Example:
+        // BEFORE: $str = "Hello";
+        // AFTER:  $str = 'Hello';
+
+        "trailing_comma_in_multiline": {"elements": ["arrays"]}, // Add trailing commas in multiline arrays.
+        // Example:
+        // BEFORE: $arr = [
+        //     'one',
+        //     'two'
+        // ];
+        // AFTER:  $arr = [
+        //     'one',
+        //     'two',
+        // ];
+
+        "declare_strict_types": true, // Add `declare(strict_types=1)` to all PHP files.
+        // Example:
+        // BEFORE: <?php
+        // AFTER:  <?php declare(strict_types=1);
+
+        "class_definition": {"single_line": true}, // Use single-line class definition if empty.
+        // Example:
+        // BEFORE: class MyClass {}
+        // AFTER:  class MyClass {}
+
+        "method_argument_space": {"on_multiline": "ensure_fully_multiline"}, // Ensure proper alignment for multiline method arguments.
+        // Example:
+        // BEFORE: myFunction($arg1, $arg2,
+        // $arg3);
+        // AFTER:  myFunction(
+        //     $arg1,
+        //     $arg2,
+        //     $arg3
+        // );
+
+        "return_type_declaration": {"space_before": "one"}, // Ensure a single space before return types.
+        // Example:
+        // BEFORE: function myFunction():int {}
+        // AFTER:  function myFunction(): int {}
+
+        "psr_autoloading": true, // Enforce PSR-4 autoloading standards.
+        // Example: Ensures classes match file paths and namespaces.
+
+        "strict_param": true, // Enforce strict types in PHPDoc and method signatures.
+        // Example: Ensures `@param` matches actual argument types.
+
+        "control_structure_continuation_position": {"position": "next_line"}, // Place continuation of control structures on the next line.
+        // Example:
+        // BEFORE: if (true) continue;
+        // AFTER:  if (true)
+        //            continue;
+
+        "line_ending": true, // Ensure consistent line endings (e.g., LF).
+        // Example: Converts CRLF to LF for Unix-style consistency.
+
+        "no_whitespace_in_blank_line": true // Remove unnecessary whitespace on blank lines.
+        // Example:
+        // BEFORE:
+        //
+        // AFTER:
+    },
+    "exclude": ["vendor", "storage", "node_modules", "bootstrap/cache"] // Exclude auto-generated or external directories from formatting.
+}

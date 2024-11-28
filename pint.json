@@ -1,3 +1,51 @@
 {
-    "preset": "laravel"
+    "preset": "laravel",
+    "rules": {
+        "no_useless_return": true,
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "binary_operator_spaces": {
+            "default": "single_space"
+        },
+        "concat_space": {
+            "spacing": "one"
+        },
+        "no_unused_imports": true,
+        "ordered_imports": {
+            "sort_algorithm": "alpha"
+        },
+        "phpdoc_align": true,
+        "phpdoc_separation": true,
+        "phpdoc_order": true,
+        "single_quote": true,
+        "trailing_comma_in_multiline": {
+            "elements": [
+                "arrays"
+            ]
+        },
+        "declare_strict_types": true,
+        "class_definition": {
+            "single_line": true
+        },
+        "method_argument_space": {
+            "on_multiline": "ensure_fully_multiline"
+        },
+        "return_type_declaration": {
+            "space_before": "one"
+        },
+        "psr_autoloading": true,
+        "strict_param": true,
+        "control_structure_continuation_position": {
+            "position": "next_line"
+        },
+        "line_ending": true,
+        "no_whitespace_in_blank_line": true
+    },
+    "exclude": [
+        "vendor",
+        "storage",
+        "node_modules",
+        "bootstrap/cache"
+    ]
 }
