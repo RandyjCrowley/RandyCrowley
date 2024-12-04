@@ -28,5 +28,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{ github.ref_name }}
+          tags: ghcr.io/randycrowley/${{ github.ref_name }}
 
