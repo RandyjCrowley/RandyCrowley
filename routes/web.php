@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RedirectContoller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', [App\Http\Controllers\AuthController::class, 'index'])->name('login');
@@ -11,7 +12,8 @@ Route::get('auth/{provider}', [AuthController::class, 'redirectToProvider']);
 Route::get('auth/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('redirect/{to}', [RedirectContoller::class, 'redirect'])->name('redirect');
 });
 
 Route::get('/', function () {
