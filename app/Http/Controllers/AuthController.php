@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Provider;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -20,81 +24,63 @@ class AuthController extends Controller
         return view('login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function logout() : RedirectResponse
     {
-        //
+        Auth::logout();
+
+        return redirect('/');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) : \Illuminate\Http\RedirectResponse
+    public function redirectToProvider($provider) : RedirectResponse
     {
-        // Validate the incoming request to ensure image data is present
-        $request->validate([
-            'image' => 'required|string',
-        ]);
+        return Socialite::driver($provider)->redirect();
+    }
 
-        // Get base64 image data
-        $imageData = $request->input('image');
+    public function handleProviderCallback($provider) : RedirectResponse
+    {
+        try {
+            $socialUser = Socialite::driver($provider)->user();
 
-        // Check if the base64 data contains the correct prefix and strip it
-        if (strpos($imageData, 'data:image/jpeg;base64,') !== false) {
-            $image = str_replace('data:image/jpeg;base64,', '', $imageData); // Remove the base64 prefix
-            $image = str_replace(' ', '+', $image); // Replace spaces with plus sign
+            // Start a database transaction
+            return DB::transaction(function () use ($socialUser, $provider) {
+                // First check if we have a user with this provider
+                $providerUser = Provider::where('provider_name', $provider)
+                    ->where('provider_id', $socialUser->getId())
+                    ->first();
+
+                if ($providerUser) {
+                    Auth::login($providerUser->user);
+
+                    return redirect()->intended(route('home'));
+                }
+
+                // Then check if we have a user with this email
+                $user = User::where('email', $socialUser->getEmail())->first();
+
+                if (! $user) {
+                    // Create new user if none exists
+                    $user = User::create([
+                        'name' => $socialUser->getName(),
+                        'email' => $socialUser->getEmail(),
+                        'password' => bcrypt(Str::random(16)),
+                    ]);
+                }
+
+                // Create the provider record
+                $user->providers()->create([
+                    'provider_name' => $provider,
+                    'provider_id' => $socialUser->getId(),
+                ]);
+
+                Auth::login($user);
+
+                return redirect()->intended(route('home'));
+            });
+
         }
-        else {
-            return response()->json(['error' => 'Invalid image data'], 400); // Handle invalid image format
+        catch (Exception $e) {
+            return redirect('/login')
+                ->with('error', 'Something went wrong with ' . $provider . ' login: ' . $e->getMessage());
         }
-
-        // Generate a unique name for the image
-        $imageName = uniqid() . '.jpg';
-
-        // Save the image to the storage
-        if (Storage::put("public/images/{$imageName}", base64_decode($image, true))) {
-            // Log the user in (if needed)
-            Auth::loginUsingId(1); // Login user as an example, ensure this is a valid operation
-
-            // Redirect to the home route
-            return Redirect::route('home');
-        }
-        else {
-            return Redirect::back()->withErrors(['error' => 'Unable to save image']); // Handle error saving image
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
