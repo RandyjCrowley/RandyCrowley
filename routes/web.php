@@ -6,10 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImagerController;
 use App\Http\Controllers\RedirectContoller;
 use App\Http\Controllers\StorageBoxController;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Route;
-
-Debugbar::disable();
 
 Route::get('login', [App\Http\Controllers\AuthController::class, 'index'])->name('login');
 Route::get('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
