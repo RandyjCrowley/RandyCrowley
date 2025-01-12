@@ -168,6 +168,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-gray-900">Storage Boxes</h2>
+                            <div class="rounded-full bg-blue-100 p-2">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">Manage your storage box inventory</p>
+                        <div class="mt-4">
+                            <a href="/storage-boxes"
+                                class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500">
+                                Open Storage Manager
+                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

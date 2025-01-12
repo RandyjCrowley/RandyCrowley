@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
@@ -27,6 +28,7 @@ class AuthController extends Controller
     public function logout() : RedirectResponse
     {
         Auth::logout();
+        Session::flush();
 
         return redirect('/');
     }

@@ -45,4 +45,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Provider::class);
     }
+
+    public function files() : HasMany
+    {
+        return $this->hasMany(FileUpload::class);
+    }
+
+    public function storageBoxes() : HasMany
+    {
+        return $this->hasMany(StorageBox::class);
+    }
 }
