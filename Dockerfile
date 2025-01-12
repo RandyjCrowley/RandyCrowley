@@ -1,5 +1,8 @@
 FROM serversideup/php:8.3-fpm-apache
 #-v2.2.1
+USER root
+# RUN commands
+USER 1001
 
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get update -u 0 && \
