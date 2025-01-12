@@ -29,7 +29,7 @@ COPY . .
 RUN composer dumpautoload -o
 
 # Install and build frontend assets
-RUN npm install && npm run production
+RUN npm install && npm run build
 
 # Publish assets
 RUN php artisan vendor:publish --tag=log-viewer-assets --force
