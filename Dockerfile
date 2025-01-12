@@ -2,9 +2,9 @@ FROM serversideup/php:8.3-fpm-apache
 #-v2.2.1
 
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get update && \
-    apt-get install -y nodejs git php8.3-imagick ghostscript --no-install-recommends && \
-    apt-get clean && \
+    apt-get update -u 0 && \
+    apt-get install -u 0 -y nodejs git php8.3-imagick ghostscript --no-install-recommends && \
+    apt-get clean -u 0 && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Create app directory
