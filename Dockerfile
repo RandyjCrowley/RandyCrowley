@@ -18,10 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Install necessary PHP extensions
 RUN install-php-extensions imagick gd
 
-# Add and configure www-data user and group
-RUN groupadd -g 33 www-data \
-    && useradd -u 33 -g 33 -d /var/www -s /usr/sbin/nologin www-data \
-    && chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
 # Copy composer files and install dependencies
 COPY composer.* ./
