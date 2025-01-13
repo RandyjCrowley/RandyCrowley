@@ -1,4 +1,4 @@
-FROM serversideup/php:8.3-fpm-apache
+FROM serversideup/php:8.3-fpm-nginx
 
 # Switch to root for system installations
 USER root
@@ -18,7 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Install necessary PHP extensions
 RUN install-php-extensions imagick gd
 
-RUN chown -R www-data:www-data /var/www/html
+
 
 # Copy composer files and install dependencies
 COPY composer.* ./
@@ -36,6 +36,8 @@ RUN php artisan vendor:publish --tag=log-viewer-assets --force
 
 # Expose port 80
 EXPOSE 80
+
+RUN chown -R www-data:www-data /var/www/html
 
 # Switch to www-data user for running the application
 USER www-data
