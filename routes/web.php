@@ -16,7 +16,6 @@ Route::get('auth/{provider}/callback', [AuthController::class, 'handleProviderCa
 Route::get('open-box/{storageBox}', [StorageBoxController::class, 'show'])->name('open-box');
 
 Route::middleware('auth')->group(function () {
-    if (request()->user()->id === 1) {
         Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('redirect/{to}', [RedirectContoller::class, 'redirect'])->name('redirect');
     
@@ -29,7 +28,6 @@ Route::middleware('auth')->group(function () {
         Route::post('imager-upload-chunk', [ImagerController::class, 'uploadChunk'])->name('imager-upload-chunk');
         Route::post('imager-upload-finalize', [ImagerController::class, 'finalizeUpload'])->name('imager-upload-finalize');
         Route::post('imager-upload-cancel', [ImagerController::class, 'cancelUpload'])->name('imager-upload-cancel');
-    }
 });
 
 Route::get('/', function () {

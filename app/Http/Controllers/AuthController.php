@@ -50,7 +50,8 @@ class AuthController extends Controller
                     ->where('provider_id', $socialUser->getId())
                     ->first();
 
-                if ($providerUser) {
+                if ($providerUser && $providerUser->user == 1) {
+                    
                     Auth::login($providerUser->user);
 
                     return redirect()->intended(route('home'));
@@ -63,8 +64,6 @@ class AuthController extends Controller
                     // Create new user if none exists
                     $user = User::create([
                         'name' => $socialUser->getName(),
-                        'email' => $socialUser->getEmail(),
-                        'password' => bcrypt(Str::random(16)),
                     ]);
                 }
 
@@ -74,7 +73,9 @@ class AuthController extends Controller
                     'provider_id' => $socialUser->getId(),
                 ]);
 
-                Auth::login($user);
+                if ($user->id == 1) {
+                    Auth::login($user);
+                }
 
                 return redirect()->intended(route('home'));
             });
