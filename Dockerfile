@@ -13,6 +13,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 
 WORKDIR /var/www/html
 
+USER webuser
 # Install composer from the official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -33,6 +34,6 @@ RUN php artisan vendor:publish --tag=log-viewer-assets --force
 EXPOSE 80
 
 # Switch back to non-root user if needed
-# USER webuser
+
 
 ENTRYPOINT ["/init"]
