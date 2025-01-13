@@ -33,7 +33,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             @forelse ($box->photos as $photo)
                                 <div class="relative group">
-                                    <img src="{{ Storage::disk('local')->url($photo->photo_path) }}" alt="Box photo"
+                                    <img src="{{ Storage::disk('public')->url($photo->photo_path) }}" alt="Box photo"
                                         class="w-full h-48 object-cover rounded-lg">
                                     @if ($photo->description)
                                         <div

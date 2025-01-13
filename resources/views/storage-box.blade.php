@@ -145,6 +145,7 @@
             parallelUploads: 10,
             maxFilesize: 10,
             maxFiles: 10,
+            withCredentials: true,
             paramName: "box_photos",
             acceptedFiles: "image/*",
             headers: {

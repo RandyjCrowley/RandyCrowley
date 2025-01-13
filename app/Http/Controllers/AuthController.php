@@ -20,12 +20,12 @@ class AuthController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : View
+    public function index(): View
     {
         return view('login');
     }
 
-    public function logout() : RedirectResponse
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         Session::flush();
@@ -33,12 +33,12 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function redirectToProvider($provider) : RedirectResponse
+    public function redirectToProvider($provider): RedirectResponse
     {
         return Socialite::driver($provider)->redirect();
     }
 
-    public function handleProviderCallback($provider) : RedirectResponse
+    public function handleProviderCallback($provider): RedirectResponse
     {
         try {
             $socialUser = Socialite::driver($provider)->user();
@@ -50,8 +50,8 @@ class AuthController extends Controller
                     ->where('provider_id', $socialUser->getId())
                     ->first();
 
-                if ($providerUser && $providerUser->user == 1) {
-                    
+                if ($providerUser && $providerUser->user->id == 1) {
+
                     Auth::login($providerUser->user);
 
                     return redirect()->intended(route('home'));
@@ -79,9 +79,7 @@ class AuthController extends Controller
 
                 return redirect()->intended(route('home'));
             });
-
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return redirect('/login')
                 ->with('error', 'Something went wrong with ' . $provider . ' login: ' . $e->getMessage());
         }

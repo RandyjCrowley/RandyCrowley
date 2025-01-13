@@ -51,6 +51,8 @@ COPY --chown=www-data:www-data . .
 COPY --from=build /usr/src/app/public/build ./public/build
 RUN composer dump-autoload --optimize
 
+RUN php artisan storage:link
+
 EXPOSE 8080
 
 USER www-data

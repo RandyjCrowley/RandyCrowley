@@ -16,19 +16,19 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StorageBoxController extends Controller
 {
-    public function index() : View
+    public function index(): View
     {
         return view('storage-box');
     }
 
-    public function show(StorageBox $storageBox) : View
+    public function show(StorageBox $storageBox): View
     {
         return view('storage-box-show', [
             'box' => $storageBox,
         ]);
     }
 
-    public function qr(StorageBox $storageBox) : Response
+    public function qr(StorageBox $storageBox): Response
     {
         $url = route('open-box', [$storageBox->slug]);
 
@@ -37,7 +37,7 @@ class StorageBoxController extends Controller
         return response($image)->header('Content-type', 'image/png');
     }
 
-    public function store(Request $request) : JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'box_name' => 'required|string|max:255',
@@ -62,12 +62,12 @@ class StorageBoxController extends Controller
     }
 
     // Gets passed an array of photos and returns paths to the photos
-    public function savePhotos(array $box_photos, int $storageBoxId) : array
+    public function savePhotos(array $box_photos, int $storageBoxId): array
     {
         $saved_photos = [];
         $base_path = 'qr_codes/' . $storageBoxId . '/';
         foreach ($box_photos as $photo) {
-            $path = $base_path . Str::uuid7() . $photo->getClientOriginalExtension();
+            $path = $base_path . Str::uuid7() . '.' . $photo->getClientOriginalExtension();
             Storage::disk('public')->put($path, $photo->getContent());
             $saved_photos[]['photo_path'] = $path;
         }
